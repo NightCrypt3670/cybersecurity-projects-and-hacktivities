@@ -1,12 +1,15 @@
-![[Screenshot 2025-11-09 201848.png]]
+<!--![[Screenshot 2025-11-09 201848.png]]-->
+![ExpresswayScreenshot](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/Screenshot%202025-11-09%20201848.png)
 
 ### Nmap Scan
 
 SSH
-![[nmap1.png]]
+
+![ExpresswayNmap1](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/nmap1.png)
 
 ISAKMP (Internet Security Association and Key Management Protocol)
-![[nmap2.png]]
+
+![ExpresswayNmap2](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/nmap2.png)
 
 Finding the right nmap scan is the hardest part of this machine. I spent more than an hour to check the open ports. I easily got the SSH port but for the Port 500, it takes me around 30 minutes to find it since it is a udp port and running `-p-` returns a lot of RTTVAR error. Maybe because there a lot of players who are brute-forcing the ssh service.
 
@@ -28,7 +31,7 @@ Starting ike-scan 1.9.6 with 1 hosts (http://www.nta-monitor.com/tools/ike-scan/
 Ending ike-scan 1.9.6: 1 hosts scanned in 0.965 seconds (1.04 hosts/sec).  1 returned handshake; 0 returned notify
 ```
 
-![[ikescan1.png]]
+![Expressway_ikescan1](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/ikescan1.png)
 
 
 ### Getting the hash and username:
@@ -49,17 +52,17 @@ Starting ike-scan 1.9.6 with 1 hosts (http://www.nta-monitor.com/tools/ike-scan/
 Ending ike-scan 1.9.6: 1 hosts scanned in 1.801 seconds (0.56 hosts/sec).  1 returned handshake; 0 returned notify
 ```
 
-![[ikescan2.png]]
+![Expressway_ikescan2](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/ikescan2.png)
 
 I saved the hash as `hash.txt`, then used hashcat for offline cracking.
 
-![[hashcat1.png]]
+![Expressway_hashcat1](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/hashcat1.png)
 
 ### Hashcat Result:
 
 ike@expressway.htb:freakingrockstarontheroad
 
-![[hashcatresult.png]]
+![Expressway_hashcatresult](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/hashcatresult.png)
 
 
 ## User Flag
@@ -67,7 +70,7 @@ ike@expressway.htb:freakingrockstarontheroad
 
 After getting the credentials, I logged in to the SSH service to capture the `user.txt` flag.
 
-![[sshlogin_and_userflag.png]]
+![Expressway_sshlogin](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/sshlogin_and_userflag.png)
 
 
 ## Root Flag
@@ -86,8 +89,12 @@ Vulnerable binary:
 root       10763  0.0  0.1  22012  7816 pts/0    S+   11:12   0:00 /usr/local/bin/sudo -h offramp.expressway.htb ./bash
 ```
 
-![[privescvector.png]]
+![Expressway_privescvector](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/privescvector.png)
 
 
 I executed the binary to get a root access and capture the root flag:
-![[privesc.png]]
+
+![Expressway_privesc](https://github.com/NightCrypt3670/cybersecurity-projects-and-hacktivities/blob/main/HTB_Machines_Walkthrough/Expressway/Assets/privesc.png)
+
+
+And that's it... Happy Hacking!!!
